@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     
-<item android:id="tasks"
+<item android:id="@+id/tasks"
     android:icon="@drawable/tasks_icn"
     android:title="Tasks"/>
 
@@ -9,7 +9,7 @@
         android:title=""/>
 
 
-    <item android:id="settings"
+    <item android:id="@+id/settings"
         android:icon="@drawable/settings_icn"
         android:title="Settings"
         />
