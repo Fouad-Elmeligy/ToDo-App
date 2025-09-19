@@ -8,19 +8,19 @@
     <color name="Red">#EC4B4B</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="green">#61E757</color>
     <color name="Purple_blue">#200E32</color>
+    <color name="background_color">#060E1E</color>
+    <color name="green">#61E757</color>
     <color name="sky_blue">#3598DB</color>
-    <color name="background_color">#DFECDB</color>
     <color name="light_pastel_greenish">#DFECDB</color>
     <color name="Light_Blue">#5D9CEC</color>
-    <color name="bottom_sheet_color">@color/white</color>
     <color name="Rich_Black">#060E1E</color>
     <color name="Dark_blue_Gray">#141922</color>
-    <color name="bottom_app_bar_color">#FFFFFFFF</color>
+    <color name="bottom_app_bar_color">#141922</color>
+    <color name="bottom_sheet_color">#141922</color>
     <color name="bottom_nav_bar_color">@android:color/transparent</color>
     <color name="fab_color">#3598DB</color>
-    <color name="edit_text_color">#9CA9A9A9</color>
-    <color name="item_task_bg_color">@color/white</color>
-    <color name="item_week_day_color">@color/black</color>
+    <color name="edit_text_color">#E6CDCACA</color>
+    <color name="item_task_bg_color">#141922</color>
+    <color name="item_week_day_color">@color/white</color>
 </resources>

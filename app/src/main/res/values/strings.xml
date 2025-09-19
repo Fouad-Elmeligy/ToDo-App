@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Todo App</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="enter_your_task_title">enter your task title...</string>
+    <string name="enter_your_task_details">enter your task details...</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

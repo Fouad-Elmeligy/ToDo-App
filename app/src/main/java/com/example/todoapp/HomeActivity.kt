@@ -1,16 +1,65 @@
 package com.example.todoapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.fragment.app.Fragment
+import com.example.todoapp.Fragments.CallBack.OnTaskAddedClick
+import com.example.todoapp.Fragments.Settings.SettingsFragment
+import com.example.todoapp.Fragments.ToDosList.TodosListFragment
+import com.example.todoapp.Fragments.addToDo.AddTodoBottomSheetFragment
+import com.example.todoapp.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityHomeBinding
+private lateinit var todoFragment: TodosListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        binding = ActivityHomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        initViews()
 
-        setContentView(R.layout.activity_home)
+        // إظهار Fragment الأولاني
+        if (savedInstanceState == null) {
+            showFragments(TodosListFragment())
+        }
+    }
 
+    private fun initViews() {
+        binding.bottomNav.setOnItemSelectedListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.navigation_tasks -> {
+                    showFragments(todoFragment)
+                }
+                R.id.navigation_settings -> {
+                    showFragments(SettingsFragment())
+                }
+
+            }
+            return@setOnItemSelectedListener true
+        }
+        todoFragment= TodosListFragment()
+        binding.fabBottom.setOnClickListener {
+            val fragment = AddTodoBottomSheetFragment(onTaskAddedClick = object : OnTaskAddedClick{
+                override fun onTaskAdd() {
+                    todoFragment.getTasksByDate()
+                }
+
+            })
+            fragment.show(supportFragmentManager, "AddTodoBottomSheet")
+        }
+
+
+        // تحديد الـ default selection
+        binding.bottomNav.selectedItemId = R.id.navigation_tasks
+    }
+
+    private fun showFragments(fragment: Fragment) {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container, fragment)
+            .commit()
     }
 }
