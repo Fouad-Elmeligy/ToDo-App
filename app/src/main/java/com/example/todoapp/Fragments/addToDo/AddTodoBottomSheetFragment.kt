@@ -10,7 +10,6 @@ import android.widget.DatePicker
 import android.widget.TimePicker
 import com.example.todoapp.DataBaseTasks.TasksDM.TaskDM
 import com.example.todoapp.DataBaseTasks.TasksDataBase
-import com.example.todoapp.Fragments.CallBack.OnTaskAddedClick
 import com.example.todoapp.databinding.FragmentAddTodoBinding
 import com.example.todoapp.utils.getFormattedDate
 import com.example.todoapp.utils.getFormattedTime
@@ -18,7 +17,7 @@ import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import java.time.ZoneId
 import java.util.Calendar
 
-class AddTodoBottomSheetFragment (private val onTaskAddedClick: OnTaskAddedClick?=null): BottomSheetDialogFragment() {
+class AddTodoBottomSheetFragment (): BottomSheetDialogFragment() {
     private val selectedDate= Calendar.getInstance()
     private var binding: FragmentAddTodoBinding? = null
     override fun onCreateView(
@@ -72,9 +71,6 @@ class AddTodoBottomSheetFragment (private val onTaskAddedClick: OnTaskAddedClick
                     description = binding?.descriptionTextInputLayout?.editText?.text.toString(),
                     date = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 ))
-                onTaskAddedClick?.onTaskAdd()
-
-
             }
 
 

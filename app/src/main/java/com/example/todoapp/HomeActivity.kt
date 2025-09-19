@@ -1,13 +1,7 @@
 package com.example.todoapp
-
 import android.os.Bundle
-import android.util.Log
-import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import androidx.fragment.app.Fragment
-import com.example.todoapp.Fragments.CallBack.OnTaskAddedClick
 import com.example.todoapp.Fragments.Settings.SettingsFragment
 import com.example.todoapp.Fragments.ToDosList.TodosListFragment
 import com.example.todoapp.Fragments.addToDo.AddTodoBottomSheetFragment
@@ -15,7 +9,6 @@ import com.example.todoapp.databinding.ActivityHomeBinding
 
 class HomeActivity : AppCompatActivity() {
     private lateinit var binding: ActivityHomeBinding
-private lateinit var todoFragment: TodosListFragment
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityHomeBinding.inflate(layoutInflater)
@@ -32,7 +25,7 @@ private lateinit var todoFragment: TodosListFragment
         binding.bottomNav.setOnItemSelectedListener { menuItem ->
             when(menuItem.itemId) {
                 R.id.navigation_tasks -> {
-                    showFragments(todoFragment)
+                    showFragments(TodosListFragment())
                 }
                 R.id.navigation_settings -> {
                     showFragments(SettingsFragment())
@@ -41,14 +34,8 @@ private lateinit var todoFragment: TodosListFragment
             }
             return@setOnItemSelectedListener true
         }
-        todoFragment= TodosListFragment()
         binding.fabBottom.setOnClickListener {
-            val fragment = AddTodoBottomSheetFragment(onTaskAddedClick = object : OnTaskAddedClick{
-                override fun onTaskAdd() {
-                    todoFragment.getTasksByDate()
-                }
-
-            })
+            val fragment = AddTodoBottomSheetFragment()
             fragment.show(supportFragmentManager, "AddTodoBottomSheet")
         }
 
