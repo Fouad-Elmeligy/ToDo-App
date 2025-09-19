@@ -5,16 +5,20 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.todoapp.DataBaseTasks.TasksDM.TaskDM
 import com.example.todoapp.DataBaseTasks.TasksDataBase
+import com.example.todoapp.Fragments.CallBacks.OnTaskClickListener
 import com.example.todoapp.R
 import com.example.todoapp.databinding.ItemTaskBinding
 
 class TasksAdapter(private var tasks: List<TaskDM>) :
     RecyclerView.Adapter<TasksAdapter.TaskViewHolder>() {
+    var onDeleteClickListener: OnTaskClickListener? = null
+    var onCheckClickListener: OnTaskClickListener? = null
     override fun onCreateViewHolder(
         parent: ViewGroup,
         viewType: Int
@@ -22,8 +26,9 @@ class TasksAdapter(private var tasks: List<TaskDM>) :
         val binding = ItemTaskBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return TaskViewHolder(binding)
     }
-    fun setNewTasksList(tasks: List<TaskDM>){
-        this.tasks=tasks
+
+    fun setNewTasksList(tasks: List<TaskDM>) {
+        this.tasks = tasks
         notifyDataSetChanged()
     }
 
@@ -40,50 +45,13 @@ class TasksAdapter(private var tasks: List<TaskDM>) :
     ) {
         val task = tasks[position]
 
-        // Always reset the UI state first
-        resetItemUI(holder)
-
-        // Set the correct state based on task data
-        updateItemState(holder, task)
-
-
-        // Set click listener
+        holder.binding.deleteView.setOnClickListener {
+            onDeleteClickListener?.onTaskClick(task, position)
+        }
         holder.binding.checkImage.setOnClickListener {
-            toggleTaskCompletion(task, position)
+            onCheckClickListener?.onTaskClick(task, position)
         }
-
         holder.bind(task)
-    }
-
-    private fun resetItemUI(holder: TaskViewHolder) {
-        // Reset to default state
-        holder.binding.checkText.visibility = View.GONE
-        holder.binding.taskTitle.setTextColor(
-            ContextCompat.getColor(holder.itemView.context, R.color.sky_blue)
-        )
-        holder.binding.verticalViewLine.background = ColorDrawable(
-            ContextCompat.getColor(holder.itemView.context, R.color.sky_blue)
-        )
-    }
-
-    private fun updateItemState(holder: TaskViewHolder, task: TaskDM) {
-        if (task.isCompleted) {
-            holder.binding.checkImage.setImageDrawable(null)
-            holder.binding.checkText.visibility = View.VISIBLE
-            holder.binding.taskTitle.setTextColor(
-                ContextCompat.getColor(holder.itemView.context, R.color.green)
-            )
-            holder.binding.verticalViewLine.background = ColorDrawable(
-                ContextCompat.getColor(holder.itemView.context, R.color.green)
-            )
-        } else {
-            holder.binding.checkImage.setImageResource(R.drawable.icon_check)
-        }
-    }
-
-    private fun toggleTaskCompletion(task: TaskDM, position: Int) {
-        task.isCompleted = true
-        notifyItemChanged(position)
     }
 
 
@@ -95,7 +63,29 @@ class TasksAdapter(private var tasks: List<TaskDM>) :
         RecyclerView.ViewHolder(binding.root) {
         fun bind(item: TaskDM) {
             binding.taskTitle.text = item.title
-            binding.timeText.text = item.description.toString()
+            binding.timeText.text = item.date.toString()
+            if (item.isCompleted == true) {
+                val greenColor=ResourcesCompat.getColor(
+                    binding.root.resources,
+                    R.color.green,
+                    null
+                )
+                binding.verticalViewLine.setBackgroundColor(greenColor)
+                binding.checkText.visibility = View.VISIBLE
+                binding.checkImage.visibility=View.INVISIBLE
+                binding.taskTitle.setTextColor(greenColor)
+
+            }else{
+                val skyBlueColor=ResourcesCompat.getColor(
+                    binding.root.resources,
+                    R.color.sky_blue,
+                    null
+                )
+                binding.verticalViewLine.setBackgroundColor(skyBlueColor)
+                binding.checkText.visibility = View.INVISIBLE
+                binding.checkImage.visibility= View.VISIBLE
+                binding.taskTitle.setTextColor(skyBlueColor)
+            }
 
 
         }

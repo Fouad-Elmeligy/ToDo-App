@@ -7,10 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.res.ResourcesCompat
 import androidx.fragment.app.Fragment
+import com.example.todoapp.DataBaseTasks.TasksDM.TaskDM
 import com.example.todoapp.Fragments.ToDosList.Adapter.TasksAdapter
 import com.example.todoapp.Fragments.ToDosList.Adapter.WeekDayHeaderViewHolder
 import com.example.todoapp.Fragments.ToDosList.Adapter.WeekDayViewHolder
 import com.example.todoapp.DataBaseTasks.TasksDataBase
+import com.example.todoapp.Fragments.CallBacks.OnTaskClickListener
 import com.example.todoapp.R
 import com.example.todoapp.databinding.FragmentTodosListBinding
 import com.example.todoapp.databinding.ItemWeekDayBinding
@@ -48,6 +50,26 @@ class TodosListFragment : Fragment() {
         binding.tasksRecyclerView.adapter = adapter
 
         initCalenderView()
+        adapter.onDeleteClickListener=object : OnTaskClickListener{
+            override fun onTaskClick(
+                task: TaskDM,
+                position: Int
+            ) {
+                TasksDataBase.getInstanse(requireContext()).getTaskDao().TaskDelete(task)
+                adapter.notifyItemRemoved(position)
+            }
+
+        }
+        adapter.onCheckClickListener=object : OnTaskClickListener{
+            override fun onTaskClick(
+                task: TaskDM,
+                position: Int
+            ) {
+                TasksDataBase.getInstanse(requireContext()).getTaskDao().TaskUpdate(task.copy(isCompleted = true))
+                adapter.notifyItemChanged(position)
+            }
+
+        }
 
 
     }
