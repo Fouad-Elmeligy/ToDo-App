@@ -71,6 +71,7 @@ class AddTodoBottomSheetFragment (): BottomSheetDialogFragment() {
                     description = binding?.descriptionTextInputLayout?.editText?.text.toString(),
                     date = selectedDate.toInstant().atZone(ZoneId.systemDefault()).toLocalDate()
                 ))
+                dismiss()
             }
 
 

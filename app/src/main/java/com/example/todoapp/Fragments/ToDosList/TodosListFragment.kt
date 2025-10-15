@@ -30,7 +30,7 @@ import java.util.Locale
 
 
 class TodosListFragment : Fragment() {
-
+private lateinit var editTextFragment: EditTextFragment
     private lateinit var binding: FragmentTodosListBinding
     private var selectedDate: LocalDate? = null
     private lateinit var adapter: TasksAdapter
@@ -67,6 +67,21 @@ class TodosListFragment : Fragment() {
             ) {
                 TasksDataBase.getInstanse(requireContext()).getTaskDao().TaskUpdate(task.copy(isCompleted = true))
                 adapter.notifyItemChanged(position)
+            }
+
+
+        }
+        adapter.onTaskItemClickListener = object : OnTaskClickListener{
+            override fun onTaskClick(
+                task: TaskDM,
+                position: Int
+            ) {
+
+                editTextFragment= EditTextFragment(task,position)
+                editTextFragment.show(parentFragmentManager,null)
+                adapter.notifyItemChanged(position)
+
+
             }
 
         }
